@@ -1,0 +1,37 @@
+# Environment variables
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+
+# Storage & Temporary Media
+storage/
+storage/downloads/
+storage/frames/
+storage/audio/
+storage/outputs/
+*.mp4
+*.mp3
+*.png
+*.jpg
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# Logs & Database
+*.db
+*.sqlite
+*.log
+
+# Cloudflared binary
+cloudflared
+cloudflared.exe

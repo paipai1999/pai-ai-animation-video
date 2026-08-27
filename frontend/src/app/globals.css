@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 224 71% 4%;
+  --foreground: 213 31% 91%;
+  --card: 224 71% 7%;
+  --card-foreground: 213 31% 91%;
+  --primary: 262 83% 58%;
+  --primary-foreground: 210 40% 98%;
+  --accent: 217 91% 60%;
+  --accent-foreground: 210 40% 98%;
+  --border: 216 34% 17%;
+  --radius: 0.75rem;
+}
+
+body {
+  color: hsl(var(--foreground));
+  background: radial-gradient(circle at 50% 0%, hsl(260 40% 12%) 0%, hsl(var(--background)) 70%);
+  min-height: 100vh;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+/* Custom glowing animated border effects */
+.glow-border {
+  position: relative;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(59, 130, 246, 0.15));
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.2);
+}
+
+.glow-hover:hover {
+  border-color: rgba(168, 85, 247, 0.6);
+  box-shadow: 0 0 30px -5px rgba(168, 85, 247, 0.4);
+}
