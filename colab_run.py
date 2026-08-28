@@ -124,6 +124,11 @@ def start_services(gemini_api_key: str = ""):
     front_env = os.environ.copy()
     front_env["PATH"] = f"/usr/bin:/usr/local/bin:{front_env.get('PATH', '')}"
 
+    # Ensure autoprefixer is installed in node_modules
+    if not os.path.exists(os.path.join(frontend_dir, "node_modules", "autoprefixer")):
+        print("📦 Installing required autoprefixer module for Tailwind CSS...")
+        subprocess.run(["npm", "install", "autoprefixer", "--silent"], cwd=frontend_dir, env=front_env)
+
     # Run Next.js in lightweight dev mode for low RAM usage on Colab
     start_cmd = ["npm", "run", "dev", "--", "-p", "3000", "-H", "0.0.0.0"]
 
