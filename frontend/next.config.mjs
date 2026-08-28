@@ -14,14 +14,15 @@ const nextConfig = {
     ],
   },
   async rewrites() {
+    const backendUrl = process.env.INTERNAL_BACKEND_URL || 'http://127.0.0.1:8000';
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:8000/api/:path*',
+        destination: `${backendUrl}/api/:path*`,
       },
       {
         source: '/storage/:path*',
-        destination: 'http://localhost:8000/storage/:path*',
+        destination: `${backendUrl}/storage/:path*`,
       },
     ];
   },
