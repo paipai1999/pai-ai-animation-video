@@ -70,9 +70,16 @@ def process_video_remake_pipeline(job_id: str):
         if is_uploaded_file and os.path.exists(video_url):
             update_job_progress(job_id, JobStatus.DOWNLOADING, 10, "Processing uploaded local video file...")
             source_video_path = video_url
+            video_dur = 0.0
+            try:
+                from moviepy.editor import VideoFileClip
+                with VideoFileClip(source_video_path) as clip:
+                    video_dur = float(clip.duration or 0.0)
+            except Exception:
+                pass
             metadata = {
                 "title": os.path.basename(video_url),
-                "duration": 0.0,
+                "duration": video_dur,
                 "thumbnail": ""
             }
         else:

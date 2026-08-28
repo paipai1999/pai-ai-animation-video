@@ -25,6 +25,13 @@ class VideoDownloader:
             'noplaylist': True,
             'quiet': True,
             'no_warnings': True,
+            'socket_timeout': 30,
+            'retries': 3,
+            'extractor_args': {
+                'youtube': {
+                    'player_client': ['android', 'web', 'tv']
+                }
+            }
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
