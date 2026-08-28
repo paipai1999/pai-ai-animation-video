@@ -1,9 +1,7 @@
 import os
 import uuid
-import math
 import subprocess
-from typing import List, Dict, Any, Optional
-from typing import Tuple
+from typing import List, Dict, Any, Optional, Tuple
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 

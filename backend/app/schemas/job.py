@@ -1,6 +1,6 @@
 from typing import List, Optional, Any
 from datetime import datetime
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, Field
 from backend.app.models.job import JobStatus
 
 

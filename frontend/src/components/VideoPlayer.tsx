@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download, Sparkles, CheckCircle, Share2, Play } from 'lucide-react';
+import { Download, Sparkles } from 'lucide-react';
 import { getMediaUrl } from '@/lib/api';
 
 interface VideoPlayerProps {

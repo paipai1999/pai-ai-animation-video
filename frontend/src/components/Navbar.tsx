@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Video, Clapperboard, Github } from 'lucide-react';
+import { Sparkles, Clapperboard } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   return (

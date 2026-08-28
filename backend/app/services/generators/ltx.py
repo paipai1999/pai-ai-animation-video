@@ -1,6 +1,5 @@
 import os
 import uuid
-import requests
 from typing import Optional
 from backend.app.services.generators.base import BaseVisualGenerator
 from backend.app.core.config import settings

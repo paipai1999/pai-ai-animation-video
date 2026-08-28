@@ -3,7 +3,7 @@ import uuid
 import shutil
 import json
 import asyncio
-from typing import List, Optional, Any
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, UploadFile, File, Form
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
@@ -12,7 +12,7 @@ from sse_starlette.sse import EventSourceResponse
 
 from backend.app.core.config import settings
 from backend.app.core.database import get_db
-from backend.app.models.job import Job, Scene, JobStatus
+from backend.app.models.job import Job, JobStatus
 from backend.app.schemas.job import JobCreateRequest, JobResponse
 from backend.app.core.celery_app import celery_app
 from backend.app.tasks.pipeline import process_video_remake_pipeline
