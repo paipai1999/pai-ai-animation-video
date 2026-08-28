@@ -87,16 +87,30 @@ class VideoAnalyzer:
         ]
         """
 
+        models_to_try = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
+        response = None
+        last_err = None
+
         try:
-            response = self.client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=[video_file, prompt],
-                config=types.GenerateContentConfig(
-                    system_instruction=system_instruction,
-                    response_mime_type="application/json",
-                    temperature=0.2
-                )
-            )
+            for model_name in models_to_try:
+                try:
+                    response = self.client.models.generate_content(
+                        model=model_name,
+                        contents=[video_file, prompt],
+                        config=types.GenerateContentConfig(
+                            system_instruction=system_instruction,
+                            response_mime_type="application/json",
+                            temperature=0.2
+                        )
+                    )
+                    if response and response.text:
+                        break
+                except Exception as m_err:
+                    last_err = m_err
+                    print(f"[Analyzer Notice] Model {model_name} attempt: {m_err}. Trying fallback...")
+            
+            if not response or not response.text:
+                raise RuntimeError(f"Gemini video analysis failed across models: {last_err}")
         finally:
             # Clean up uploaded video file from Gemini Cloud to save storage
             try:
