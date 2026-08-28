@@ -48,26 +48,33 @@ class VideoRenderer:
         img = Image.new("RGBA", (video_width, video_height), (0, 0, 0, 0))
         draw = ImageDraw.Draw(img)
 
-        # Word wrap text
-        words = text.strip().split()
-        lines = []
-        current_line = []
+        # Smart word/character wrap for Latin and Asian/Burmese scripts
         max_chars = 38 if video_width >= 1000 else 24
+        clean_str = text.strip()
+        lines = []
 
-        for word in words:
-            if len(" ".join(current_line + [word])) <= max_chars:
-                current_line.append(word)
-            else:
+        if " " in clean_str:
+            words = clean_str.split()
+            current_line = []
+            for word in words:
+                if len(" ".join(current_line + [word])) <= max_chars:
+                    current_line.append(word)
+                else:
+                    lines.append(" ".join(current_line))
+                    current_line = [word]
+            if current_line:
                 lines.append(" ".join(current_line))
-                current_line = [word]
-        if current_line:
-            lines.append(" ".join(current_line))
+        else:
+            lines = [clean_str[i:i + max_chars] for i in range(0, len(clean_str), max_chars)]
 
         display_text = "\n".join(lines[:2])  # Max 2 lines per subtitle
 
-        # Font setup with multi-platform candidates
+        # Font setup with multi-platform candidates & Burmese Unicode font prioritization
         font = None
         font_size = max(int(video_height * 0.042), 22)
+
+        is_myanmar = any('\u1000' <= char <= '\u109f' or '\uaa60' <= char <= '\uaa7f' for char in clean_str)
+
         font_candidates = [
             "arial.ttf",
             "Arial.ttf",
@@ -78,6 +85,18 @@ class VideoRenderer:
             "/usr/share/fonts/truetype/freefont/FreeSans.ttf",
             "/usr/share/fonts/TTF/DejaVuSans.ttf"
         ]
+
+        if is_myanmar:
+            font_candidates = [
+                "C:/Windows/Fonts/mmrtext.ttf",
+                "C:/Windows/Fonts/mmrtextb.ttf",
+                "mmrtext.ttf",
+                "/usr/share/fonts/truetype/padauk/Padauk-Bold.ttf",
+                "/usr/share/fonts/truetype/padauk/Padauk.ttf",
+                "/usr/share/fonts/truetype/noto/NotoSansMyanmar-Regular.ttf",
+                "/usr/share/fonts/truetype/noto/NotoSansMyanmar-Bold.ttf",
+            ] + font_candidates
+
         for candidate in font_candidates:
             try:
                 font = ImageFont.truetype(candidate, font_size)

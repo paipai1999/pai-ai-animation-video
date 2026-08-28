@@ -12,7 +12,7 @@ if ! command -v node &> /dev/null || [ "$(node -v | cut -d'.' -f1 | tr -d 'v')" 
 fi
 
 apt-get update -qq
-apt-get install -y -qq nodejs ffmpeg redis-server fonts-noto-cjk fonts-dejavu-core curl
+apt-get install -y -qq nodejs ffmpeg redis-server fonts-sil-padauk fonts-noto-core fonts-noto-cjk fonts-dejavu-core curl
 
 echo "📦 [2/5] Installing Python dependencies & GPU Voice Cloning (F5-TTS)..."
 pip install --upgrade pip -q
