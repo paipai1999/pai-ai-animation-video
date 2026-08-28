@@ -124,9 +124,8 @@ def start_services(gemini_api_key: str = ""):
     front_env = os.environ.copy()
     front_env["PATH"] = f"/usr/bin:/usr/local/bin:{front_env.get('PATH', '')}"
 
-    # Check if .next build exists, use start for instant launch; otherwise dev
-    has_build = os.path.exists(os.path.join(frontend_dir, ".next"))
-    start_cmd = ["npm", "run", "start", "--", "-p", "3000", "-H", "0.0.0.0"] if has_build else ["npm", "run", "dev", "--", "-p", "3000", "-H", "0.0.0.0"]
+    # Run Next.js in lightweight dev mode for low RAM usage on Colab
+    start_cmd = ["npm", "run", "dev", "--", "-p", "3000", "-H", "0.0.0.0"]
 
     frontend_proc = subprocess.Popen(
         start_cmd,

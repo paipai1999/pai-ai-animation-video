@@ -21,11 +21,9 @@ pip install --upgrade pip -q
 pip install -r backend/requirements.txt -q
 pip install gradio_client f5-tts -q
 
-echo "🟢 [3/5] Installing and preparing Frontend..."
+echo "🟢 [3/5] Installing Frontend dependencies..."
 cd frontend
 npm install --silent
-echo "⚡ Building Next.js production bundle for fast instant load..."
-npm run build || true
 cd ..
 
 echo "🌐 [4/5] Setting up Cloudflare Tunnel (cloudflared)..."
