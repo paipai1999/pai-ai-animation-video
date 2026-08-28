@@ -4,15 +4,17 @@
 # ==============================================================================
 set -e
 
-echo "🚀 [1/5] Checking and installing modern Node.js (v20 LTS), FFmpeg, Redis..."
-# Ensure modern Node.js >= 18 is installed
-if ! command -v node &> /dev/null || [ "$(node -v | cut -d'.' -f1 | tr -d 'v')" -lt 18 ]; then
-    echo "Installing NodeSource Node.js 20 LTS..."
-    curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-fi
+echo "🚀 [1/5] Removing outdated /tools/node and installing Node.js 20 LTS, FFmpeg, Redis..."
+# Remove legacy Colab node tools that cause 'Cannot find module node:path'
+rm -rf /tools/node 2>/dev/null || true
+export PATH="/usr/bin:/usr/local/bin:$PATH"
 
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
 apt-get update -qq
 apt-get install -y -qq nodejs ffmpeg redis-server fonts-sil-padauk fonts-noto-core fonts-noto-cjk fonts-dejavu-core curl
+
+echo "✅ Verified Node: $(node -v) at $(which node)"
+echo "✅ Verified NPM: $(npm -v) at $(which npm)"
 
 echo "📦 [2/5] Installing Python dependencies & GPU Voice Cloning (F5-TTS)..."
 pip install --upgrade pip -q

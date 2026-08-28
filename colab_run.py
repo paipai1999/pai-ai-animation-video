@@ -113,6 +113,17 @@ def start_services(gemini_api_key: str = ""):
     frontend_dir = os.path.join(os.getcwd(), "frontend")
     frontend_log = open("frontend.log", "w", encoding="utf-8")
 
+    # Purge legacy /tools/node from Colab to prevent node:path error
+    if os.path.exists("/tools/node"):
+        try:
+            import shutil
+            shutil.rmtree("/tools/node", ignore_errors=True)
+        except Exception:
+            pass
+
+    front_env = os.environ.copy()
+    front_env["PATH"] = f"/usr/bin:/usr/local/bin:{front_env.get('PATH', '')}"
+
     # Check if .next build exists, use start for instant launch; otherwise dev
     has_build = os.path.exists(os.path.join(frontend_dir, ".next"))
     start_cmd = ["npm", "run", "start", "--", "-p", "3000", "-H", "0.0.0.0"] if has_build else ["npm", "run", "dev", "--", "-p", "3000", "-H", "0.0.0.0"]
@@ -120,6 +131,7 @@ def start_services(gemini_api_key: str = ""):
     frontend_proc = subprocess.Popen(
         start_cmd,
         cwd=frontend_dir,
+        env=front_env,
         stdout=frontend_log,
         stderr=subprocess.STDOUT
     )
